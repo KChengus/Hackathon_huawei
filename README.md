@@ -13,6 +13,22 @@ Kruskals algorithm for search
 Dont rebuild graphs just change cost
 
 # Costs
+# Baseline cost
+# Action cost
+
+
+
 
 
 # Breakdown av uppgiften
+
++-----------+      +-----------+      +-----------+      +-----------+
+| Internet  | ---> | Cloud_cu  | ---> | Cloud_du  | ---> | Cloud_phy |
++-----------+      +-----------+      +-----------+      +-----------+
+      |                   |                   |                  |
+      v                   v                   v                  v
++-----------+      +-----------+      +-----------+      +-----------+
+|  BBU_cu   | ---> |  BBU_du   | ---> |  BBU_phy  | ---> |    UE     |
++-----------+      +-----------+      +-----------+      +-----------+
+
+

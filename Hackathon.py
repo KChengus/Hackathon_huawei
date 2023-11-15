@@ -1,6 +1,10 @@
-filename = ""
+import time
+
+filename = "toy_example.txt"
 
 f = open(filename, 'r')
+
+start_time = time.time()
 
 baseline_cost, action_cost = [int(i) for i in f.readline().split()]
 
@@ -11,19 +15,21 @@ B, cpu, mem, acc, cost_per_set = [int(i) for i in f.readline().split()]
 N, T, X = [int(i) for i in f.readline().split()]
     
 
-for _ in range(N):
+
+for i in range(N):
     CU =  [int(i) for i in f.readline().split()] # 3 elem cpu, mem, acc
     DU =  [int(i) for i in f.readline().split()] # 3 elem
     PHY = [int(i) for i in f.readline().split()] # 3 elem
     IO = [int(i) for i in f.readline().split()]  # 4 elem LA, LB, LC, LD
-    traficUnits = [int(i) for i in f.readline().split()]   # T elem
+    trafficUnits = [int(i) for i in f.readline().split()]   # T elem
 
 
-def rec(BBU : bool, current_state, foo: string):
-    """ 
+"""
+def rec(BBU : bool, current_state, foo: string:
+    
     current_state:
-    Net = 0, CU = 1, DU = 2, PHY = 3, UE = 4
-    """
+    Net = 0 CU = 1, DU = 2, PHY = 3, UE = 4
+
     if (current_state == 4):
         return 0
     
@@ -52,13 +58,41 @@ def rec(BBU : bool, current_state, foo: string):
 
         # If in cloud or BBU function call to BBU in next state
         rec(BBU, current_state+1, foo.append("c"))
-    return 0
+    return 0"""
         
+
+
+
+
+
+
+
+
+
+
+states = {"In_Cloud": True, "Internet": 2, "Cloud_cu": 2, "BBU_cu": [2,3], "Cloud_du": 2,           #If cost is a list then it depends on if coming from cloud or BBU
+           "BBU_du":[2,3], "Cloud_phy": 2, "BBU_phy": [2,3], "UE": [2,3]}    
+
+
+transitions = {"Internet": ["Cloud_cu", "BBU_cu"],
+               "Cloud_cu": ["Cloud_du", "BBU_du"],
+               "BBU_cu": ["BBU_du"],
+               "Cloud_du": ["Cloud_phy", "BBU_phy"],
+               "BBU_du": ["BBU_phy"], 
+               "Cloud_phy": ["UE"],
+               "BBU_phy" : ["UE"] 
+}
+
+
 
 class states():             #CLOUD -> CU -> DU -> PHY -> BBU
     def __init__(self, BBU : bool, current_state):
         self.in_BBU = BBU
         self.state = current_state 
 
-
+end_time = time.time()
+elapsed_time = end_time - start_time
+print(elapsed_time)
 f.close()
+
+
