@@ -23,52 +23,32 @@ for i in range(N):
     IO = [int(i) for i in f.readline().split()]  # 4 elem LA, LB, LC, LD
     trafficUnits = [int(i) for i in f.readline().split()]   # T elem
 
-
-"""
-def rec(BBU : bool, current_state, foo: string:
-    
+def rec(BBU : bool, current_state, foo: str):
+    """ 
     current_state:
-    Net = 0 CU = 1, DU = 2, PHY = 3, UE = 4
-
+    Net = 0, CU = 1, DU = 2, PHY = 3, UE = 4
+    """
     if (current_state == 4):
         return 0
-    
-    if (not BBU):
-        # If in cloud function call to cloud in next state
-        if (current_state == 0):
-            pass
-        elif (current_state == 1):
-            pass
-        elif (current_state == 2):
-            pass
-        else:
-            pass
-    
-        rec(not BBU, current_state+1, foo.append("b"))
+    value = 0
+    # If in cloud function call to cloud in next state
+    if (current_state == 0):
+        pass
+    elif (current_state == 1):
+        pass
+    elif (current_state == 2):
+        pass
     else:
-
-        if (current_state == 0):
-            pass
-        elif (current_state == 1):
-            pass
-        elif (current_state == 2):
-            pass
-        else:
-            pass
-
-        # If in cloud or BBU function call to BBU in next state
-        rec(BBU, current_state+1, foo.append("c"))
-    return 0"""
+        pass
+    
+    path1 = -1
+    if (not BBU):
+        # If in Cloud, do function call to Cloud and BBU in next state
+        return min(rec(not BBU, current_state+1, foo.append("b")), rec(BBU, current_state+1, foo.append("c"))) + value
         
-
-
-
-
-
-
-
-
-
+    # If in cloud or BBU function call to BBU in next state    
+    return min(rec(BBU, current_state+1, foo.append("c")), path1)
+        
 
 states = {"In_Cloud": True, "Internet": 2, "Cloud_cu": 2, "BBU_cu": [2,3], "Cloud_du": 2,           #If cost is a list then it depends on if coming from cloud or BBU
            "BBU_du":[2,3], "Cloud_phy": 2, "BBU_phy": [2,3], "UE": [2,3]}    
