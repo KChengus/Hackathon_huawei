@@ -13,8 +13,11 @@ Kruskals algorithm for search
 Dont rebuild graphs just change cost
 
 # Costs
-# Baseline cost
-# Action cost
+# Baseline cost is the cost that you have to be under
+# Action cost is moving from Cloud to BBU or vice versa
+# BBU profile, B is how many board sets we have, rest is resources provided by board and cost of running BBU sets
+# CU resource unit is how many things it needs of each 1 CU needs to function
+# IO cost CU to DU example
 
 
 

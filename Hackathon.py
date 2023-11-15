@@ -24,6 +24,7 @@ for i in range(N):
     trafficUnits = [int(i) for i in f.readline().split()]   # T elem
 
 
+
 """
 def rec(BBU : bool, current_state, foo: string:
     
@@ -61,6 +62,17 @@ def rec(BBU : bool, current_state, foo: string:
     return 0"""
         
 
+###########################################################################################################################################
+
+#Make into class?
+
+
+for i in range(N):
+    CU =  [int(i) for i in f.readline().split()] # 3 elem cpu, mem, acc
+    DU =  [int(i) for i in f.readline().split()] # 3 elem
+    PHY = [int(i) for i in f.readline().split()] # 3 elem
+    IO = [int(i) for i in f.readline().split()]  # 4 elem LA, LB, LC, LD
+    trafficUnits = [int(i) for i in f.readline().split()]   # T elem
 
 
 
@@ -68,31 +80,66 @@ def rec(BBU : bool, current_state, foo: string:
 
 
 
-
-
-states = {"In_Cloud": True, "Internet": 2, "Cloud_cu": 2, "BBU_cu": [2,3], "Cloud_du": 2,           #If cost is a list then it depends on if coming from cloud or BBU
-           "BBU_du":[2,3], "Cloud_phy": 2, "BBU_phy": [2,3], "UE": [2,3]}    
-
-
-transitions = {"Internet": ["Cloud_cu", "BBU_cu"],
-               "Cloud_cu": ["Cloud_du", "BBU_du"],
-               "BBU_cu": ["BBU_du"],
-               "Cloud_du": ["Cloud_phy", "BBU_phy"],
-               "BBU_du": ["BBU_phy"], 
-               "Cloud_phy": ["UE"],
-               "BBU_phy" : ["UE"] 
-}
+def Calculate_BBU_sets():       #Returns the required amount of BBU sets
+    return 0
 
 
 
-class states():             #CLOUD -> CU -> DU -> PHY -> BBU
-    def __init__(self, BBU : bool, current_state):
-        self.in_BBU = BBU
-        self.state = current_state 
+#Cost Idea: we can add all and multiply with traffic at the end
+def BBU_cost():
+    return cost_per_set*Calculate_BBU_sets()
+
+
+
+
+##########################################################################################################################################
+
+
+
+
+class StateMachine():             #CLOUD -> CU -> DU -> PHY -> BBU    
+    def __init__(self):
+        self.states = {"Internet": 0, "Cloud_cu": 2, "BBU_cu": 2, "Cloud_du": 2,           #If cost is a list then it depends on if coming from cloud or BBU
+           "BBU_du":[2,3], "Cloud_phy": 2, "BBU_phy": [2,3], "UE": [2,3]}                   #Shit way of storing costs.
+        
+
+        self.transitions = {"Internet": ["Cloud_cu", "BBU_cu"],          #Key is node and value is all nodes it can transition into
+                    "Cloud_cu": ["Cloud_du", "BBU_du"],
+                    "BBU_cu": ["BBU_du"],
+                    "Cloud_du": ["Cloud_phy", "BBU_phy"],
+                    "BBU_du": ["BBU_phy"], 
+                    "Cloud_phy": ["UE"],
+                    "BBU_phy" : ["UE"] 
+        }
+        self.current_state = "Internet"             #Sets starting state at internet
+
+    def transition(self, next_state):                       #Transitions into new state
+            if next_state in self.transitions[self.current_state]:
+                self.current_state = next_state
+
+    def get_cost(self, state, source):
+        if source == "cloud":
+            return self.cost_from_cloud[state]
+        elif source == "BBU":
+            return self.cost_from_BBU[state]
+
+
+
+
+for i in range(T):      #Iterating over traffic
+    pass
+
+
 
 end_time = time.time()
 elapsed_time = end_time - start_time
 print(elapsed_time)
+
+
+
+
+
+
 f.close()
 
 
