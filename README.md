@@ -24,7 +24,8 @@ Dont rebuild graphs just change cost
 
 
 # Breakdown av uppgiften
-
+0 1 3 5
+0 2 4 6
 +-----------+      +-----------+      +-----------+      +-----------+
 | Internet  | ---> | Cloud_cu  | ---> | Cloud_du  | ---> | Cloud_phy |
 +-----------+      +-----------+      +-----------+      +-----------+
