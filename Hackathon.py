@@ -14,6 +14,10 @@ B, cpu, mem, acc, cost_per_set = [int(i) for i in f.readline().split()]
 
 N, T, X = [int(i) for i in f.readline().split()]
     
+# print(baseline_cost, action_cost)
+# print(B, cpu, mem, acc, cost_per_set)
+
+
 
 
 for i in range(N):
@@ -24,15 +28,18 @@ for i in range(N):
     trafficUnits = [int(i) for i in f.readline().split()]   # T elem
 
 
-
-"""
-def rec(BBU : bool, current_state, foo: string:
-    
+def rec(BBU : bool, current_state, foo: str):
+    """
     current_state:
     Net = 0, CU = 1, DU = 2, PHY = 3, UE = 4
     """
+
     if (current_state == 4):
         return 0
+    if(BBU):
+        print(current_state, 'B')
+    else:
+        print(current_state, 'C')
     value = 0
     # If in cloud function call to cloud in next state
     if (current_state == 0):
@@ -44,14 +51,14 @@ def rec(BBU : bool, current_state, foo: string:
     else:
         pass
     
-    path1 = -1
     if (not BBU):
         # If in Cloud, do function call to Cloud and BBU in next state
-        return min(rec(not BBU, current_state+1, foo.append("b")), rec(BBU, current_state+1, foo.append("c"))) + value
+        return min(rec(not BBU, current_state+1, foo+'C'), rec(BBU, current_state+1, foo+'C')) + value
         
     # If in cloud or BBU function call to BBU in next state    
-    return min(rec(BBU, current_state+1, foo.append("c")), path1)
+    return rec(BBU, current_state+1, foo+'B') + value
         
+
 
 states = {"In_Cloud": True, "Internet": 2, "Cloud_cu": 2, "BBU_cu": [2,3], "Cloud_du": 2,           #If cost is a list then it depends on if coming from cloud or BBU
            "BBU_du":[2,3], "Cloud_phy": 2, "BBU_phy": [2,3], "UE": [2,3]}    
