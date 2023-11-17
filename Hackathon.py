@@ -30,7 +30,6 @@ def rec(BBU : bool, current_state, foo: string:
     
     current_state:
     Net = 0, CU = 1, DU = 2, PHY = 3, UE = 4
-    """
     if (current_state == 4):
         return 0
     value = 0
@@ -51,16 +50,21 @@ def rec(BBU : bool, current_state, foo: string:
         
     # If in cloud or BBU function call to BBU in next state    
     return min(rec(BBU, current_state+1, foo.append("c")), path1)
-        
+"""        
 
-states = {"In_Cloud": True, "Internet": 2, "Cloud_cu": 2, "BBU_cu": [2,3], "Cloud_du": 2,           #If cost is a list then it depends on if coming from cloud or BBU
-           "BBU_du":[2,3], "Cloud_phy": 2, "BBU_phy": [2,3], "UE": [2,3]}    
+####################################################################################################################################################################################
+
+#Tuple
+
+states = {"Internet": [2,3], "Cloud_cu": [2,3], "BBU_cu": 2, "Cloud_du": [2,3],           #If cost is a tuple that tells you how much transition costs
+           "BBU_du":2, "Cloud_phy": [2,3], "BBU_phy": 2, "UE": 0}    
 
 
-transitions = {"Internet": ["Cloud_cu", "BBU_cu"],
-               "Cloud_cu": ["Cloud_du", "BBU_du"],
+#Make tuple
+transitions = {"Internet": ["BBU_cu","Cloud_cu"],
+               "Cloud_cu": ["BBU_du", "Cloud_du"],
                "BBU_cu": ["BBU_du"],
-               "Cloud_du": ["Cloud_phy", "BBU_phy"],
+               "Cloud_du": ["BBU_phy","Cloud_phy"],
                "BBU_du": ["BBU_phy"], 
                "Cloud_phy": ["UE"],
                "BBU_phy" : ["UE"] 
@@ -72,6 +76,25 @@ class states():             #CLOUD -> CU -> DU -> PHY -> BBU
     def __init__(self, BBU : bool, current_state):
         self.in_BBU = BBU
         self.state = current_state 
+
+
+
+def transition(current_state, to_BBU):
+    next_states = transitions.get(current_state)
+    if current_state[0:3] == "BBU":                         #If current_state is BBU then it cannot go to cloud and has to go to BBU or UE
+        return next_states[0]
+    if to_BBU:                                              #If going to BBU not from BBU has to be coming from cloud
+        return next_states[0]
+    else:                                                   #Lastly from cloud to cloud
+        return next_states[1]
+
+
+# Example usage: next_states = transition(current_state, False)
+
+
+
+
+
 
 end_time = time.time()
 elapsed_time = end_time - start_time
