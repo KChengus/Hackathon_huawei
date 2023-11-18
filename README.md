@@ -24,8 +24,8 @@ Dont rebuild graphs just change cost
 
 
 # Breakdown av uppgiften
-0 1 3 5
-0 2 4 6
+0 1 3 5 10 
+0 2 4 6 10 
 +-----------+      +-----------+      +-----------+      +-----------+
 | Internet  | ---> | Cloud_cu  | ---> | Cloud_du  | ---> | Cloud_phy |
 +-----------+      +-----------+      +-----------+      +-----------+
@@ -36,3 +36,19 @@ Dont rebuild graphs just change cost
 +-----------+      +-----------+      +-----------+      +-----------+
 
 
+
+# Action cost, Service allocation*Actioncost
+# IO, Traversal cost for 1 then multiply with how much traffic can take optimal path. IOCost = IOCostLinkedUsed * Traffic
+
+# Breakdown of cloud cost
+# CPU required = (amout of acc * X + CPU required)
+# 
+
+# Plan av main:
+# Sätta alla kostnader
+# A*
+# OPEX
+
+# Sätt alla kostnader
+# Sätt kostnader för cloud
+# Sätt kostnader för BBU genom BBU sets funktion
