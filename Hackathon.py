@@ -1,5 +1,5 @@
 import time
-
+import math
 filename = "One test case.txt"
 
 f = open(filename, 'r')
@@ -20,10 +20,7 @@ def calBBUCost(cpu, mem, acc, traffic_unit):
     cpu_allo = cpu * traffic_unit
     mem_allo = mem * traffic_unit
     acc_allo = acc * traffic_unit
-    BBUsetsRequired = max(cpu_allo/cpu_per_set, mem_allo/mem_per_set, acc_allo/acc_per_set)
-    if (not BBUsetsRequired.is_integer()):
-        BBUsetsRequired = int(BBUsetsRequired)+1
-    # print(BBUsetsRequired,"##################################")
+    BBUsetsRequired = max(math.ceil(cpu_allo/cpu_per_set), math.ceil(mem_allo/mem_per_set), math.ceil(acc_allo/acc_per_set))
     if (BBUsetsRequired <= BBU_limit):
         return BBUsetsRequired * cost_per_set
     # if BBUsetsRequired exceeds limit then return invalid cost
@@ -100,12 +97,11 @@ def main():
             cuBBUCost = calBBUCost(CU[0], CU[1], CU[2], traffic)
             duBBUCost = calBBUCost(DU[0], DU[1], DU[2], traffic)
             phyBBUCost = calBBUCost(PHY[0], PHY[1], PHY[2], traffic)
-
             BBUCost = (0 if cuBBUCost == -1 else cuBBUCost) + (0 if duBBUCost == -1 else duBBUCost) + (0 if phyBBUCost == -1 else phyBBUCost)
 
-            cuCcost = cloud_costs(CU, traffic)+ action_cost * (previous[0] == "B")
-            duCcost = cloud_costs(DU, traffic)+ action_cost * (previous[1] == "B")
-            phyCcost = cloud_costs(PHY, traffic)+ action_cost * (previous[2] == "B")
+            cuCcost = cloud_costs(CU, traffic)+ action_cost * (not previous[0] == "B")
+            duCcost = cloud_costs(DU, traffic)+ action_cost * (not previous[1] == "B")
+            phyCcost = cloud_costs(PHY, traffic)+ action_cost * (not previous[2] == "B")
             
             graph = {
                 "0": {"1": cuCcost, "2": (float("inf") if cuBBUCost == -1 else IO[0] + cuBBUCost)},
